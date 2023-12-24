@@ -33,11 +33,11 @@ def join():
         PW1 = request.form.get("PW1")
         PW2 = request.form.get("PW2")
 
-        cur = db(f"SELECT * FROM info WHERE ID = '{userID}';")
+        cur = db(f"SELECT * FROM 테이블명 WHERE ID = '{userID}';")
         if cur.fetchone():
             return render_template('join.html', message = '이미 존재하는 아이디입니다.')
         elif PW1 == PW2:
-            chuga = f'INSERT INTO info VALUES (\'{userID}\', \'{PW1}\');'
+            chuga = f'INSERT INTO 테이블명 VALUES (\'{userID}\', \'{PW1}\');'
             cur.execute(chuga)
             conn.commit()
             return render_template('join.html', message = '회원가입되었습니다.', clear=True)
@@ -51,7 +51,7 @@ def login():
         userID = request.form.get("userID")
         password = request.form.get("password")
         
-        cur = db(f"SELECT * FROM info WHERE ID=\'{userID}\' AND PW=\'{password}\';")
+        cur = db(f"SELECT * FROM 테이블명 WHERE ID=\'{userID}\' AND PW=\'{password}\';")
         result = cur.fetchone()
         if result:
             resp = make_response(redirect(url_for('main')))
@@ -71,7 +71,7 @@ def logout():
 def quit():
     ID = request.cookies.get('ID')
     if ID:
-        db(f"DELETE FROM info WHERE ID = \'{ID}\';")
+        db(f"DELETE FROM 테이블명 WHERE ID = \'{ID}\';")
         resp = make_response(redirect(url_for('logout')))
         return resp
     else:
