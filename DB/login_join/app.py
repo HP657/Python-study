@@ -9,9 +9,9 @@ def db(men_sql):
     return cur
 
 conn = psycopg2.connect(
-        database="dbcon",
-        user="admin",
-        password="hyojun5070!"
+        database="데이터베이스명",
+        user="유저명",
+        password="비밀번호"
     )
 cur = conn.cursor()
 
