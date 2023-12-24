@@ -2,9 +2,9 @@ import psycopg2
 
 # PostgreSQL에 연결
 conn = psycopg2.connect(
-    database="dbcon",
-    user="admin",
-    password="hyojun5070!"
+    database="데이터베이스명",
+    user="유저명",
+    password="비밀번호"
 )
 
 # 커서 생성
