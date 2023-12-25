@@ -10,9 +10,9 @@ def db(men_sql, params):
 
 
 conn = psycopg2.connect(
-        database="dbcon",
-        user="admin",
-        password="hyojun5070!"
+        database="데이터베이스명",
+        user="유저명",
+        password="비밀번호"
     )
 cur = conn.cursor()
 
@@ -34,11 +34,11 @@ def join():
         PW1 = request.form.get("PW1")
         PW2 = request.form.get("PW2")
 
-        cur = db("SELECT * FROM info WHERE ID = %s;", (userID,))
+        cur = db("SELECT * FROM 테이블명 WHERE ID = %s;", (userID,))
         if cur.fetchone():
             return render_template('join.html', message='이미 존재하는 아이디입니다.')
         elif PW1 == PW2:
-            db("INSERT INTO info VALUES (%s, %s);", (userID, PW1))
+            db("INSERT INTO 테이블명 VALUES (%s, %s);", (userID, PW1))
             return render_template('join.html', message='회원가입되었습니다.', clear=True)
         else:
             return render_template('join.html', message='비밀번호가 일치하지 않습니다. 다시 입력해주세요.')
@@ -50,7 +50,7 @@ def login():
         userID = request.form.get("userID")
         password = request.form.get("password")
         
-        cur = db("SELECT * FROM info WHERE ID = %s AND PW = %s;", (userID, password))
+        cur = db("SELECT * FROM 테이블명 WHERE ID = %s AND PW = %s;", (userID, password))
         result = cur.fetchone()
         if result:
             resp = make_response(redirect(url_for('main')))
@@ -70,7 +70,7 @@ def logout():
 def quit():
     ID = request.cookies.get('ID')
     if ID:
-        db("DELETE FROM info WHERE ID = %s;", (ID,))
+        db("DELETE FROM 테이블명 WHERE ID = %s;", (ID,))
         resp = make_response(redirect(url_for('logout')))
         return resp
     else:
