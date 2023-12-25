@@ -2,16 +2,17 @@ from flask import Flask, request, render_template, redirect, url_for, make_respo
 import psycopg2
 
 
-def db(men_sql):
+def db(men_sql, params):
     global conn, cur
-    cur.execute(men_sql)
+    cur.execute(men_sql, params)
     conn.commit()
     return cur
 
+
 conn = psycopg2.connect(
-        database="데이터베이스명",
-        user="유저명",
-        password="비밀번호"
+        database="dbcon",
+        user="admin",
+        password="hyojun5070!"
     )
 cur = conn.cursor()
 
@@ -33,16 +34,14 @@ def join():
         PW1 = request.form.get("PW1")
         PW2 = request.form.get("PW2")
 
-        cur = db(f"SELECT * FROM 테이블명 WHERE ID = '{userID}';")
+        cur = db("SELECT * FROM info WHERE ID = %s;", (userID,))
         if cur.fetchone():
-            return render_template('join.html', message = '이미 존재하는 아이디입니다.')
+            return render_template('join.html', message='이미 존재하는 아이디입니다.')
         elif PW1 == PW2:
-            chuga = f'INSERT INTO 테이블명 VALUES (\'{userID}\', \'{PW1}\');'
-            cur.execute(chuga)
-            conn.commit()
-            return render_template('join.html', message = '회원가입되었습니다.', clear=True)
+            db("INSERT INTO info VALUES (%s, %s);", (userID, PW1))
+            return render_template('join.html', message='회원가입되었습니다.', clear=True)
         else:
-            return render_template('join.html', message = '비밀번호가 일치하지 않습니다. 다시 입력해주세요.')
+            return render_template('join.html', message='비밀번호가 일치하지 않습니다. 다시 입력해주세요.')
     return render_template('join.html')
 
 @app.route("/login", methods=['POST', 'GET'])
@@ -51,7 +50,7 @@ def login():
         userID = request.form.get("userID")
         password = request.form.get("password")
         
-        cur = db(f"SELECT * FROM 테이블명 WHERE ID=\'{userID}\' AND PW=\'{password}\';")
+        cur = db("SELECT * FROM info WHERE ID = %s AND PW = %s;", (userID, password))
         result = cur.fetchone()
         if result:
             resp = make_response(redirect(url_for('main')))
@@ -71,7 +70,7 @@ def logout():
 def quit():
     ID = request.cookies.get('ID')
     if ID:
-        db(f"DELETE FROM 테이블명 WHERE ID = \'{ID}\';")
+        db("DELETE FROM info WHERE ID = %s;", (ID,))
         resp = make_response(redirect(url_for('logout')))
         return resp
     else:
