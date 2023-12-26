@@ -1,6 +1,10 @@
-
-
 # 시현자료
+
+## 기본 DB
+![](https://velog.velcdn.com/images/hp657/post/a5e55c6b-9992-4fa1-a155-9686e24c7c02/image.png)
+### 회원가입시
+![](https://velog.velcdn.com/images/hp657/post/5ca102b8-3fab-4281-81dc-a204b38856b9/image.png)
+
 ## 기본 메인 화면 
 ![](https://velog.velcdn.com/images/hp657/post/117ff7af-d1d8-4727-97a4-6197270feddf/image.png)
 ## 기본 회원가입 화면
