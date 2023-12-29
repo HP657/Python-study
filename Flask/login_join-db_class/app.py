@@ -4,9 +4,9 @@ import psycopg2
 class DB:
     def __init__(self, database, user, password):
         self.conn = psycopg2.connect(
-        database="dbcon",
-        user="admin",
-        password="hyojun5070!"
+        database="데이터베이스명",
+        user="유저명",
+        password="비밀번호"
     )
         self.cur = self.conn.cursor()
 
@@ -16,16 +16,16 @@ class DB:
         return self.cur
     
     def select_user(self, userID):
-        return self.execute_query("SELECT * FROM info WHERE ID = %s;", (userID,)).fetchone()
+        return self.execute_query("SELECT * FROM 테이블명 WHERE ID = %s;", (userID,)).fetchone()
 
     def select_user_password(self, userID, password):
-        return self.execute_query("SELECT * FROM info WHERE ID = %s AND PW = %s;", (userID, password)).fetchone()
+        return self.execute_query("SELECT * FROM 테이블명 WHERE ID = %s AND PW = %s;", (userID, password)).fetchone()
 
     def insert_user(self, userID, password):
-        self.execute_query("INSERT INTO info VALUES (%s, %s);", (userID, password))
+        self.execute_query("INSERT INTO 테이블명 VALUES (%s, %s);", (userID, password))
 
     def delete_user(self, userID):
-        self.execute_query("DELETE FROM info WHERE ID = %s;", (userID,))
+        self.execute_query("DELETE FROM 테이블명 WHERE ID = %s;", (userID,))
 
 
 db = DB("dbcon", "admin", "hyojun5070!")
