@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>게시판</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+    
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+    
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    
+</head>
+<body>
+    <h1>간단한 게시판</h1>
+    <a href="/">메인 화면</a>
+    <form id="postForm" action="{{ url_for('add_post') }}" method="post">
+        <label for="title">제목:</label>
+        <input type="text" id="title" name="title" required>
+        <br>
+        <label for="content">내용:</label>
+        <textarea id="content" name="content" rows="4" required></textarea>
+        <br>
+        <button type="submit">게시물 작성</button>
+    </form>
+
+    {% if posts %}
+    <table>
+        <thead>
+            <tr>
+                <th>아이디</th>
+                <th>제목</th>
+                <th>내용</th>
+                <th>작성일</th>
+                <th>-</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+            <tr>
+                <td>{{ post[1] }}</td>
+                <td>{{ post[2] }}</td>
+                <td>{{ post[3] }}</td>
+                <td>{{ post[4].strftime('%Y-%m-%d') }}</td>
+                {% if ID == post[1] %}
+                <td><a href="{{ url_for('del_post', post_id=post[0] )}}">삭제</a></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    
+</body>
+</html>
