@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>api</title>
+</head>
+<body>
+  <input id="text" type="text">
+  <button onclick="send()">Submit</button>
+  <p id="result"></p>
+
+<script>
+  function send() {
+    var text = document.getElementById('text').value;
+    fetch('http://localhost:5000/restapi', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text: text,
+      }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('result').innerText = "result: " + data.result;
+    })
+    .catch(error => {
+      document.getElementById('result').innerText = "Error: " + error;
+    });
+  }
+</script>
+
+</body>
+</html>
